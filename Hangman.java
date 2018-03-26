@@ -1,3 +1,9 @@
+// Open terminal
+// 'cd Desktop'
+// 'cd hangman-example-master'
+// 'javac Hangman.java'
+// 'java Hangman'
+
 import java.io.*;
 import java.util.*;
 
@@ -40,13 +46,45 @@ We know the user has guessed the word when all the spaces are filled!
 // TODO: This method should return true if the character array is complete
 // Otherwise, it should return false
   public static boolean isCharArrayComplete() {
+    count = 0; 
+    for (int count = 0; count < charArray.length(); i++)
+    {
+      if (charArray[i] == '\u0000')
+      {
+        count++; 
+
+      }
+    }
+    if (count > 0)
+    {
+      return false; 
+    }
+    else 
+    {
+      return true; 
+    }
+    }
+
 
   }
 
 // TODO: This method prints out the current char array in a way that the user can understand
 // We want to go through the character array charArray, and print out '_' if the letter isn't filled
 // Otherwise, we want to print out the letter
-  public static void printCharAray() {
+  public static void printCharArray() {
+    System.out.println ("This is what your word currently looks like: "); 
+    for (int i = 0; i < charArray.length; i++)
+    {
+      if (charArray[i] == '\u0000')
+      {
+        System.out.print ('_ ');
+      }
+      else 
+      {
+        System.out.print ('charArray[i]' + " ");
+      }
+    }
+    System.out.println();
 
   }
 
@@ -59,7 +97,29 @@ We know the user has guessed the word when all the spaces are filled!
     // TODO: So, nextChar is the value that the user has guessed
     // We want to update charArray if the letter is accurate
     // Return true if the user guessed correctly, and false if the user guessed incorrectly
-    return false;
+
+    //1. Check if next char is in the hangmanWord 
+    if (hanfmanWord.contains(nextChar + "")) //method expects charsequence; thats why we add the empty string 
+    {
+      //update the character array, filling in the letter the user guessed in the correct spots 
+      //we can do this by iterating through the word and if the letter at index i matches nextChar
+      //we fill in the character array 
+      for (int i = 0; i < hangmanWord.length; i++)
+      {
+        if (hangManWord.charAt(i)== nextChar)
+        {
+          charArray[i] = nextChar; 
+        }
+      }
+      return true; 
+    }
+    else
+    {
+      return false; 
+    }
+    //2. If it isn't, return galse because the uer guessed an incorrect letter 
+    //3. if it is, go through the charArray, filling in the letter in the letter at the correct spot 
+
   }
 
 	public static void main(String[] args) throws FileNotFoundException {
@@ -73,15 +133,27 @@ We know the user has guessed the word when all the spaces are filled!
 
     while(incorrectGuesses < 7){
       // 1. Guess a letter
+      boolean guessedCorrectly = guessLetter();
 
       // 2. If we guessed incorrectly, increment incorrectGuesses
+      if (guessedCorrectly == false)
+      {
+        incorrectGuesses++; 
+      }
 
       // 3. Print out the current state of the array
+      printCharArray();
 
       // 4. Check if we have completed the charArray
+      if isCharArrayComplete(); 
+      {
+        System.out.println ("Congratulations! You guessed the word!!!");
+        return; //essentially end the entire program 
+      }
 
       // 5. If we have, let the user know they guessed the word!
       //    If not, let them know how many guesses they have left.
+      System.out.println ("You have " + (7 - incorrectGuess) + " left.");
 
     }
     System.out.println("Sorry, that's the end! The word was " + hangmanWord);
